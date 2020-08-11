@@ -10,6 +10,12 @@ def get_html(url):
     print(r.status_code)
 
 
+# Clear price.
+def refined(s):
+    # $11,254.41
+    return s.replace('$', '').replace('.', '').replace(',', '')
+
+
 # Parse data from html to write in csv.
 def parse_data(html):
     soup = BeautifulSoup(html, 'lxml')
@@ -32,7 +38,7 @@ def parse_data(html):
 
         try:
             # price = tds[3].find('a').get('data-usd').strip()
-            price = tds[3].text
+            price = refined(tds[3].text)
         except:
             price = ''
 
