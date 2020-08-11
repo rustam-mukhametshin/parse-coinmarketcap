@@ -1,3 +1,5 @@
+import csv
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -14,6 +16,18 @@ def get_html(url):
 def refined(s):
     # $11,254.41
     return s.replace('$', '').replace('.', '').replace(',', '')
+
+
+# Write in csv file.
+def write_csv(data):
+    with open('cmc.csv', 'a') as f:
+        writer = csv.writer(f)
+
+        writer.writerow((
+            data['name'],
+            data['url'],
+            data['price'],
+        ))
 
 
 # Parse data from html to write in csv.
@@ -47,6 +61,8 @@ def parse_data(html):
             'url': url,
             'price': price,
         }
+
+        write_csv(data)
 
 
 def main():
