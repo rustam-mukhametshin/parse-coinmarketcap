@@ -1,4 +1,5 @@
 import csv
+import re
 
 import requests
 from bs4 import BeautifulSoup
@@ -68,11 +69,28 @@ def parse_data(html):
 def main():
     url = 'https://coinmarketcap.com/'
 
-    # Get html
-    html = get_html(url)
+    while True:
+        # Get html
+        html = get_html(url)
 
-    # Write data to csv file
-    parse_data(html)
+        # Write data to csv file
+        parse_data(html)
+
+        soup = BeautifulSoup(get_html(url), 'lxml')
+        try:
+            pattern = 'Next'
+            regex = re.compile(pattern)
+
+            # Get href from pagination
+            pagination = soup.find('div', class_='cmc-table-listing__pagination')
+            href = pagination.find('a', text=regex).get('href')
+
+            # Change url
+            url = 'https://coinmarketcap.com' + href
+
+        except:
+            print('Not found')
+            break
 
 
 if __name__ == '__main__':
