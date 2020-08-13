@@ -27,11 +27,13 @@ def write_csv(file_name, data, order):
         writer.writerow(data)
 
 
-        writer.writerow((
-            data['name'],
-            data['url'],
-            data['price'],
-        ))
+# Read data from csv file.
+def read_csv(file_name, field_names):
+    with open(file_name) as file:
+        reader = csv.DictReader(file, field_names)
+
+        for row in reader:
+            print(row)
 
 
 # Parse data from html to write in csv.
@@ -70,8 +72,8 @@ def parse_and_send_to_write_data(file_name, html, labels):
         write_csv(file_name, data, labels)
 
 
-# Only get and send data to writer.
-def main_write(file_name, labels):
+# Get and send data to writer.
+def main_writer(file_name, labels):
     url = 'https://coinmarketcap.com/'
 
     while True:
@@ -98,14 +100,22 @@ def main_write(file_name, labels):
             break
 
 
-# Main
+# Read show data from csv file.
+def main_reader(file_name, labels):
+    read_csv(file_name, labels)
+
+
+# Main.
 def main():
     file_name = 'cmc.csv'
 
     labels = ['name', 'url', 'price']
 
     # Get, parse, write data
-    main_write(file_name, labels)
+    main_writer(file_name, labels)
+
+    # Read show data from csv file
+    main_reader(file_name, labels)
 
 
 if __name__ == '__main__':
