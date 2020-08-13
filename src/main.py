@@ -20,8 +20,8 @@ def refined(s):
 
 
 # Write in csv file.
-def write_csv(data, order):
-    with open('cmc.csv', 'a') as f:
+def write_csv(file_name, data, order):
+    with open(file_name, 'a') as f:
         writer = csv.DictWriter(f, order)
 
         writer.writerow(data)
@@ -35,7 +35,7 @@ def write_csv(data, order):
 
 
 # Parse data from html to write in csv.
-def parse_and_send_to_write_data(html, labels):
+def parse_and_send_to_write_data(file_name, html, labels):
     soup = BeautifulSoup(html, 'lxml')
 
     container = soup.find('body').find('div', class_='cmc-main-section__content')
@@ -67,11 +67,11 @@ def parse_and_send_to_write_data(html, labels):
             'price': price,
         }
 
-        write_csv(data, labels)
+        write_csv(file_name, data, labels)
 
 
 # Only get and send data to writer.
-def main_write(labels):
+def main_write(file_name, labels):
     url = 'https://coinmarketcap.com/'
 
     while True:
@@ -79,7 +79,7 @@ def main_write(labels):
         html = get_html(url)
 
         # Parse data to csv file
-        parse_and_send_to_write_data(html, labels)
+        parse_and_send_to_write_data(file_name, html, labels)
 
         soup = BeautifulSoup(get_html(url), 'lxml')
         try:
@@ -100,10 +100,12 @@ def main_write(labels):
 
 # Main
 def main():
+    file_name = 'cmc.csv'
+
     labels = ['name', 'url', 'price']
 
     # Get, parse, write data
-    main_write(labels)
+    main_write(file_name, labels)
 
 
 if __name__ == '__main__':
