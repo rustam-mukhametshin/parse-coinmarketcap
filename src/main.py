@@ -37,7 +37,7 @@ def write_csv(data):
 
 
 # Parse data from html to write in csv.
-def parse_data(html):
+def parse_and_send_to_write_data(html):
     soup = BeautifulSoup(html, 'lxml')
 
     container = soup.find('body').find('div', class_='cmc-main-section__content')
@@ -79,8 +79,8 @@ def main_write():
         # Get html
         html = get_html(url)
 
-        # Write data to csv file
-        parse_data(html)
+        # Parse data to csv file
+        parse_and_send_to_write_data(html)
 
         soup = BeautifulSoup(get_html(url), 'lxml')
         try:
@@ -101,6 +101,7 @@ def main_write():
 
 # Main
 def main():
+    # Get, parse, write data
     main_write()
 
 
