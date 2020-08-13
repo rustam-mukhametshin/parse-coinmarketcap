@@ -93,9 +93,9 @@ def main_write():
 
             # Change url
             url = 'https://coinmarketcap.com' + href
-
+            print(url)
         except:
-            print('Not found')
+            print('End')
             break
 
 
