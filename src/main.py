@@ -71,7 +71,8 @@ def parse_data(html):
         write_csv(data)
 
 
-def main():
+# Only get and send data to writer.
+def main_write():
     url = 'https://coinmarketcap.com/'
 
     while True:
@@ -96,6 +97,11 @@ def main():
         except:
             print('Not found')
             break
+
+
+# Main
+def main():
+    main_write()
 
 
 if __name__ == '__main__':
