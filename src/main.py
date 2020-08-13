@@ -22,7 +22,12 @@ def refined(s):
 # Write in csv file.
 def write_csv(data):
     with open('cmc.csv', 'a') as f:
-        writer = csv.writer(f)
+        order = ['name', 'url', 'price']
+
+        writer = csv.DictWriter(f, order)
+
+        writer.writerow(data)
+
 
         writer.writerow((
             data['name'],
